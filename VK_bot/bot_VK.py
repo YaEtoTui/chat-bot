@@ -9,30 +9,14 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 from User import User
 import os
 
-def load(dict_targets):
-    with open('saved_data.txt', 'r') as file:
-        data = file.read()
-        data = data.splitlines()
-    for i_elem in data:
-        if i_elem:
-            i_elem = i_elem.split(':')
-            print(i_elem[1])
-            dict_targets[int(i_elem[0])] = getattr(User(vk_bot), i_elem[1])
-    return dict_targets
 
-def saved(dict_targets):
-    with open('saved_data.txt', 'w') as file:
-        for i_key, i_value in dict_targets.items():
-            file.write('{} : {}\n'.format(i_key, i_value))
 
 
 token = 'vk1.a.2AHnn2z9Pgxy-nKeuPN6fgTyRuRHNk-w6LlQ6AwDdfV2ugW9Un6kVEm5DYdDWUa37xvCC0QZUSOJti-qFF-u6ZCqXGf62qUC9fmnxKZCk-CwRak2n2l1YiMFRZQYHEwQPevp2IZ1JpGidMJDOS7102lnTom8nS3XRJMNFvUubedPTLeR9CT2H93Hb3pJ6BiY'
 vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
 vk_bot = vk_session.get_api()
-dict_targets = load(dict_targets={})
-# with open('saved.json', 'r', encoding='utf-8') as file:
-#     dict_targets = json.load(file)
+dict_targets = {}
 print('Начало игры!')
 while True:
 
@@ -154,11 +138,6 @@ while True:
 
                 print('Текущий checkpoint: {}'.format(dict_targets[user_id].target))
                 print('Время: {}'.format(datetime.datetime.now()))
-
-                saved(dict_targets)
-                # with open('saved.json', 'w') as file:
-                #     # json.dump(dict_targets, file)
-                #     file.write(json.dumps(dict_targets, ensure_ascii=False))
 
         except Exception as exc:
             print('Возникла ошибка {}'.format(exc))
